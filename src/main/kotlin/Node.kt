@@ -1,7 +1,5 @@
-open  class Node {
+open abstract class Node {
     var text = ""
-     open fun toHTML() :String
-     {
-         return " "
-     }
+     abstract fun toHTML() :String
+
 }

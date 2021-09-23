@@ -19,16 +19,15 @@ class MarkdownParser : CodeParser {
                 results?.let {
 
                     for (i in 1 until results.groups.size-1) {
-                        //println(results.groupValues[0])
                         if (results.groupValues[i] == "**"){
                             node.text = results.groupValues[2]
-                            node.type = 5
+                            node.type = 4
                             lines.add(node)
                         }
                         else if (results.groupValues[i] == "*")
                         {
                             node.text = results.groupValues[2]
-                            node.type = 6
+                            node.type = 5
                             lines.add(node)
                         }else if (results.groupValues[i] == "#")
                         {
@@ -52,10 +51,15 @@ class MarkdownParser : CodeParser {
                             node.text = results.groupValues[2]
                             node.type = 7
                             lines.add(node)
+                        }else if(results.groupValues[i]=="<hr/>")
+                        {
+                            node.text = results.groupValues[2]
+                            node.type = 7
+                            lines.add(node)
                         }else if(results.groupValues[i]=="")
                         {
                             node.text = results.groupValues[2]
-                            node.type = 4
+                            node.type = 0
                             lines.add(node)
                         }
                     }
