@@ -8,8 +8,8 @@ class MarkdownParser : CodeParser {
         val lines = mutableListOf<Node>()
         val regex = Regex("([*#>]*)(.*?) ?\\**")
         val reader = BufferedReader(FileReader(filename))
-
         var line: String?
+
         while (reader.readLine().also {
                 line = it
             } != null) {
@@ -17,49 +17,11 @@ class MarkdownParser : CodeParser {
                 var results = regex.matchEntire(it)
                 var node = MarkdownNode()
                 results?.let {
-
+                    val map = mapOf("**" to 4,"*" to 5,"#" to 1,"##" to 2,"###" to 3,">" to 6,"<hr/>" to 7, "" to 0)
                     for (i in 1 until results.groups.size-1) {
-                        if (results.groupValues[i] == "**"){
+                        map[results.groupValues[i]]?.let {
+                            node.type = it
                             node.text = results.groupValues[2]
-                            node.type = 4
-                            lines.add(node)
-                        }
-                        else if (results.groupValues[i] == "*")
-                        {
-                            node.text = results.groupValues[2]
-                            node.type = 5
-                            lines.add(node)
-                        }else if (results.groupValues[i] == "#")
-                        {
-                            node.text = results.groupValues[2]
-                            node.type = 1
-                            lines.add(node)
-                        }
-                        else if (results.groupValues[i] == "##")
-                        {
-                            node.text = results.groupValues[2]
-                            node.type = 2
-                            lines.add(node)
-                        }
-                        else if (results.groupValues[i] == "###")
-                        {
-                            node.text = results.groupValues[2]
-                            node.type = 3
-                            lines.add(node)
-                        }else if (results.groupValues[i] == ">")
-                        {
-                            node.text = results.groupValues[2]
-                            node.type = 7
-                            lines.add(node)
-                        }else if(results.groupValues[i]=="<hr/>")
-                        {
-                            node.text = results.groupValues[2]
-                            node.type = 7
-                            lines.add(node)
-                        }else if(results.groupValues[i]=="")
-                        {
-                            node.text = results.groupValues[2]
-                            node.type = 0
                             lines.add(node)
                         }
                     }
